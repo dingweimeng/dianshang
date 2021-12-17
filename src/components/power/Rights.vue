@@ -10,10 +10,10 @@
     <!-- 卡片试图区域 -->
     <el-card>
       <el-table :data="rightsList" border srtipe>
-        <el-table-column label='#' type="index"></el-table-column>
-        <el-table-column label="权限名称" prop="authName"></el-table-column>
-        <el-table-column label="路径" prop="path"></el-table-column>
-        <el-table-column label="权限等级" prop="level">
+        <el-table-column label='#' type="index" header-align="center" align="center"></el-table-column>
+        <el-table-column label="权限名称" prop="authName" header-align="center" align="center"></el-table-column>
+        <el-table-column label="路径" prop="path" header-align="center" align="center"></el-table-column>
+        <el-table-column label="权限等级" prop="level" header-align="center" align="center">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.level==='0'">一级</el-tag>
             <el-tag type="success" v-else-if="scope.row.level==='1'">二级</el-tag>

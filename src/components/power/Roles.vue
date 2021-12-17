@@ -57,10 +57,18 @@
           </template>
         </el-table-column>
         <!-- 索引列 -->
-        <el-table-column label="#" type="index"></el-table-column>
-        <el-table-column label="角色名称" prop="roleName"></el-table-column>
-        <el-table-column label="角色描述" prop="roleDesc"></el-table-column>
-        <el-table-column label="操作" width="300px">
+        <el-table-column label="#" type="index" header-align="center" align="center"></el-table-column>
+        <el-table-column label="角色名称" prop="roleName" header-align="center" align="center"></el-table-column>
+        <el-table-column label="是否启用" prop="mg_state" header-align="center" align="center">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)">
+            </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column label="创建人" prop="roleDesc" header-align="center" align="center"></el-table-column>
+        <el-table-column label="创建时间" prop="roleDesc" header-align="center" align="center"></el-table-column>
+
+        <el-table-column label="操作" width="300px" header-align="center" align="center">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" icon="el-icon-edit">搜索</el-button>
             <el-button size="mini" type="danger" icon="el-icon-delete">删除</el-button>
@@ -113,7 +121,7 @@ export default {
     async getRoleList() {
       const { data: res } = await this.$http.get("roles")
       if (res.meta.status !== 200) {
-        return this.$message.error("获取角色列表失败！")
+        return this.$message.error("获取角色列表失败!")
       }
       this.rolelist = res.data
     },
@@ -139,7 +147,7 @@ export default {
         `roles/${role.id}/rights/${rightId}`
       )
       if (res.meta.status !== 200) {
-        return this.$message.error("删除权限失败！！")
+        return this.$message.error("删除权限失败!!")
       }
       // 删除成功  提示
       this.$message.success("删除权限成功.")
@@ -153,7 +161,7 @@ export default {
       const { data: res } = await this.$http.get("rights/tree")
 
       if (res.meta.status !== 200) {
-        return this.$message.error("获取权限数据失败！")
+        return this.$message.error("获取权限数据失败!")
       }
 
       // 成功的话 把请求的数据 保存到 data 中
@@ -193,13 +201,27 @@ export default {
         { rids: idStr }
       )
       if (res.meta.status !== 200) {
-        return this.$message.error("分配权限失败！")
+        return this.$message.error("分配权限失败!")
       }
       this.$message.success("分配权限成功")
       // 重新刷新页面
       this.getRoleList()
       // 对话框隐藏
       this.setRightDialogVisible = false
+    },
+
+    // 监听Switech 开关状态的改变
+    async userStateChanged(userinfo) {
+      console.log(userinfo)
+      // const { data: res } = await this.$http.put(
+      //   `users/${userinfo.id}/state/${userinfo.mg_state}`
+      // )
+      // if (res.meta.status !== 200) {
+      //   // 更新数据库失败 不能让页面切换状态
+      //   userinfo.mg_state = !userinfo.mg_state
+      // return this.$message.error("更新用户状态失败")
+      // }
+      this.$message.success("更新用户状态成功，ok")
     },
   },
   components: {},

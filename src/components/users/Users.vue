@@ -6,11 +6,30 @@
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
+    <!-- 卡片视图区域 -->
+    <el-card>
+      <el-row>
+        <el-form :inline="true" :model="formInline">
+          <el-form-item label="机构号">
+            <el-input v-model="formInline.jigou" placeholder="请输入机构号"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号  ">
+            <el-input v-model="formInline.Mobile" placeholder="请输入手机号"></el-input>
+          </el-form-item>
+          <el-form-item label="登录账号  ">
+            <el-input v-model="formInline.login_id" placeholder="请输入登录账号"></el-input>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </el-row>
+    </el-card>
 
     <!-- 卡片试图区域 -->
     <el-card>
       <!-- 搜索与添加按钮 -->
-
       <el-row :gutter="20">
         <el-col :span="10">
           <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">
@@ -23,25 +42,27 @@
       </el-row>
       <!-- 用户列表区域 -->
       <el-table :data="userlist" border stripe>
-        <el-table-column type="index" label="#"></el-table-column>
-        <el-table-column label="姓名" prop="username"></el-table-column>
-        <el-table-column label="邮箱" prop="email"></el-table-column>
-        <el-table-column label="电话" prop="mobile"></el-table-column>
-        <el-table-column label="角色" prop="role_name"></el-table-column>
-        <el-table-column label="状态" prop="mg_state">
+        <el-table-column type="index" label="#" header-align="center" align="center"></el-table-column>
+        <el-table-column label="机构名称" prop="username" header-align="center" align="center"></el-table-column>
+        <el-table-column label="登录账号" prop="username" header-align="center" align="center"></el-table-column>
+        <el-table-column label="创建人" prop="username" header-align="center" align="center"></el-table-column>
+        <el-table-column label="邮箱" prop="email" header-align="center" align="center"></el-table-column>
+        <el-table-column label="电话" prop="mobile" header-align="center" align="center"></el-table-column>
+        <el-table-column label="角色" prop="role_name" header-align="center" align="center"></el-table-column>
+        <el-table-column label="创建日期" prop="create_date" header-align="center" align="center"></el-table-column>
+
+        <el-table-column label="是否启用" prop="mg_state" header-align="center" align="center">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)">
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180px">
+        <el-table-column label="操作" width="180px" header-align="center" align="center">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary" icon="el-icon-edit" size="mini" @click='shouEditDialog(scope.row.id)'></el-button>
-
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="shouEditDialog(scope.row.id)"></el-button>
             <!-- 删除按钮 -->
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUserById(scope.row.id)"></el-button>
-
             <!-- 分配角色按钮 -->
             <el-tooltip effect="dark" content="权限分配" placement="top" :enterable="false">
               <el-button type="warning" icon="el-icon-setting" size="mini" @click="setRole(scope.row)"></el-button>
@@ -55,9 +76,29 @@
       </el-pagination>
     </el-card>
     <!-- 添加用户的对话框 -->
-    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%" @close='addDialogClosed'>
+    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%" @close="addDialogClosed">
       <!-- 内容主题区域 -->
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
+        <!-- 所属机构 -->
+        <el-form-item label="所属机构" prop="jigouname">
+          <!-- <el-input v-model="addForm.username"></el-input> -->
+          <el-select v-model="addForm.username" placeholder="请选择活动区域">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+        <!-- 所属角色 -->
+        <el-form-item label="所属角色" prop="role">
+          <!-- <el-input v-model="addForm.username"></el-input> -->
+          <el-select v-model="addForm.username" placeholder="请选择活动区域">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+        <!-- 登录账号 -->
+        <el-form-item label="登录账号" prop="login_number">
+          <el-input v-model="addForm.username"></el-input>
+        </el-form-item>
         <!-- 用户名 -->
         <el-form-item label="用户名" prop="username">
           <el-input v-model="addForm.username"></el-input>
@@ -82,11 +123,27 @@
     </el-dialog>
 
     <!-- 修改用户的对话框 -->
-    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%" @click='editDialogClosed'>
-      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
+    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%" @click="editDialogClosed">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="100px">
         <!-- 用户名 -->
         <el-form-item label="用户名">
           <el-input v-model="editForm.username" disabled></el-input>
+        </el-form-item>
+        <!-- 规格 -->
+        <el-form-item label="规格" prop="guige">
+          <el-input v-model="editForm.guige"></el-input>
+        </el-form-item>
+        <!-- 生产厂家 -->
+        <el-form-item label="生产厂家" prop="manufacturer">
+          <el-input v-model="editForm.manufacturer"></el-input>
+        </el-form-item>
+        <!-- 创建人 -->
+        <el-form-item label="创建人" prop="create">
+          <el-input v-model="editForm.create"></el-input>
+        </el-form-item>
+        <!-- 创建人 -->
+        <el-form-item label="创建日期" prop="create_date">
+          <el-input v-model="editForm.create_date"></el-input>
         </el-form-item>
         <!-- 邮箱 -->
         <el-form-item label="邮箱" prop="email">
@@ -104,18 +161,18 @@
     </el-dialog>
 
     <!-- 分配角色的对话框 -->
-    <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="50%" @close='setRoleDialogClosed'>
+    <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="50%" @close="setRoleDialogClosed">
       <div>
-        <p>当前的用户：{{userInfo.username}}</p>
-        <p>当前的角色：{{userInfo.role_name}}</p>
+        <p>当前的用户:{{ userInfo.username }}</p>
+        <p>当前的角色:{{ userInfo.role_name }}</p>
         <!-- 下拉Select选择器 -->
-        <p>分配新角色：
+        <p>
+          分配新角色:
           <el-select v-model="selectedRoleId" placeholder="请选择">
             <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id">
             </el-option>
           </el-select>
         </p>
-
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRoleDialogVisible = false">取 消</el-button>
@@ -130,7 +187,6 @@ export default {
   props: {},
   data() {
     // 验证邮箱的规则
-
     var checkEmail = (rule, value, cd) => {
       //邮箱正则
       const regEmail =
@@ -154,6 +210,11 @@ export default {
       }
     }
     return {
+      formInline: {
+        jigou: "",
+        Mobile: "",
+        login_id: "",
+      },
       // 获取用户列表的参数对象
       queryInfo: {
         // 查询参数
@@ -169,6 +230,9 @@ export default {
       addDialogVisible: false,
       // 添加用户的表单数据
       addForm: {
+        jigouname: "",
+        role: "",
+        login_number: "",
         username: "",
         password: "",
         email: "",
@@ -210,6 +274,14 @@ export default {
       editForm: {},
       // 修改表单的验证规则
       editFormRules: {
+        guige: [{ required: true, message: "请输入药品规格", trigger: "blur" }],
+        manufacturer: [
+          { required: true, message: "请输入生产厂家", trigger: "blur" },
+        ],
+        create: [{ required: true, message: "请输入创建人", trigger: "blur" }],
+        create_date: [
+          { required: true, message: "请输入日期", trigger: "blur" },
+        ],
         email: [
           { required: true, message: "请输入用户邮箱", trigger: "blur" },
           { validator: checkEmail, trigger: "blur" },
@@ -227,6 +299,16 @@ export default {
       rolesList: [],
       // 已选中的角色的id值
       selectedRoleId: "",
+      form: {
+        name: "",
+        region: "",
+        date1: "",
+        date2: "",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: "",
+      },
     }
   },
   created() {
@@ -239,7 +321,7 @@ export default {
         params: this.queryInfo,
       })
       if (res.meta.status !== 200) {
-        return this.$message.error("获取用户列表失败！！")
+        return this.$message.error("获取用户列表失败")
       }
       // 拿到数据 赋值
       this.userlist = res.data.users
@@ -267,7 +349,7 @@ export default {
       if (res.meta.status !== 200) {
         // 更新数据库失败 不能让页面切换状态
         userinfo.mg_state = !userinfo.mg_state
-        return this.$message.error("更新用户状态失败！！")
+        return this.$message.error("更新用户状态失败")
       }
       this.$message.success("更新用户状态成功，ok")
     },
@@ -358,7 +440,7 @@ export default {
       // console.log("确定删除了")
       const { data: res } = await this.$http.delete("users/" + id)
       if (res.meta.status !== 200) {
-        return this.$message.error("删除用户失败了！！！")
+        return this.$message.error("删除用户失败了")
       }
       this.$message.success("删除用户成功。")
       // 然后重新刷新数据
@@ -406,9 +488,17 @@ export default {
       this.selectedRoleId = ""
       this.userInfo = {}
     },
+    onSubmit() {
+      console.log("submit!")
+    },
   },
   components: {},
 }
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+// 卡片距离
+.box-card {
+  margin-bottom: 30px;
+}
+</style>

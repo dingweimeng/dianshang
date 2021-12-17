@@ -11,7 +11,7 @@
     <el-card>
       <!-- 警告部分 -->
       <el-alert
-        title="注意：只允许为第三级分类设置相关参数"
+        title="注意:只允许为第三级分类设置相关参数"
         show-icon
         type="warning"
         :closable="false"
@@ -269,7 +269,7 @@ export default {
         }
       )
       if (res.meta.status !== 200) {
-        return this.$message.error('获取参数列表失败！')
+        return this.$message.error('获取参数列表失败!')
       }
 
       res.data.forEach((item) => {
@@ -299,7 +299,7 @@ export default {
           }
         )
         if (res.meta.status !== 201) {
-          return this.$message.error('添加参数失败！')
+          return this.$message.error('添加参数失败!')
         }
         this.$message.success('添加参数成功')
         this.addDialogVisible = false

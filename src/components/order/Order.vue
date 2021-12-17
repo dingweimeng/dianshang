@@ -33,7 +33,7 @@
         <el-table-column label="是否发货" prop="is_send"></el-table-column>
         <el-table-column label="下单时间" prop="create_time"> </el-table-column>
         <el-table-column label="操作">
-          <template slot-scope="scope">
+          <template slot-scope="">
             <!-- 修改按钮 -->
             <el-button
               size="mini"

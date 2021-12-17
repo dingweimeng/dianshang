@@ -65,7 +65,7 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="querInfo.pagenum"
+        :current-page.sync="querInfo.pagenum"
         :page-sizes="[3, 5, 10, 15]"
         :page-size="querInfo.pagesize"
         layout="total, sizes, prev, pager, next, jumper"
@@ -88,7 +88,7 @@
         ref="addCateFormRef"
         label-width="100px"
       >
-        <el-form-item label="分类名称：" prop="cat_name">
+        <el-form-item label="分类名称:" prop="cat_name">
           <el-input v-model="addCateForm.cat_name"></el-input>
         </el-form-item>
         <!-- 父级分类 -->
@@ -201,7 +201,7 @@ export default {
       })
 
       if (res.meta.status !== 200) {
-        return this.$message.error('获取商品分类失败！')
+        return this.$message.error('获取商品分类失败!')
       }
       // 请求回来的数据 赋值给data
       this.catelist = res.data.result
@@ -271,7 +271,7 @@ export default {
           this.addCateForm
         )
         if (res.meta.status !== 201) {
-          return this.$message.error('添加分类失败！')
+          return this.$message.error('添加分类失败!')
         }
         this.$message.success('添加分类成功')
         this.getCateList()

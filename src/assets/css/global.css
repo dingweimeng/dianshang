@@ -24,3 +24,10 @@ body,
 .el-pagination {
     margin-top: 20px;
 }
+
+
+/* 卡片距离 */
+
+.el-card {
+    margin-top: 20px;
+}
