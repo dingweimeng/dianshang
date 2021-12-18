@@ -8,7 +8,7 @@
           <el-card :body-style="{padding: '0px'}">
             <div class="grid-content grid-con-1">
               <div class="grid-cont-right">
-                <div class="grid-num">1234</div>
+                <div class="grid-num">639</div>
                 <div>订单</div>
               </div>
             </div>
@@ -18,7 +18,7 @@
           <el-card :body-style="{padding: '0px'}">
             <div class="grid-content grid-con-2">
               <div class="grid-cont-right">
-                <div class="grid-num">321</div>
+                <div class="grid-num">76</div>
                 <div>药品</div>
               </div>
             </div>
@@ -28,7 +28,7 @@
           <el-card :body-style="{padding: '0px'}">
             <div class="grid-content grid-con-3">
               <div class="grid-cont-right">
-                <div class="grid-num">5000</div>
+                <div class="grid-num">590090</div>
                 <div>收入(元)</div>
               </div>
             </div>
@@ -38,7 +38,7 @@
           <el-card :body-style="{padding: '0px'}">
             <div class="grid-content grid-con-4">
               <div class="grid-cont-right">
-                <div class="grid-num">5000</div>
+                <div class="grid-num">37000</div>
                 <div>净利润(元)</div>
               </div>
             </div>
@@ -48,9 +48,13 @@
     </el-card>
     <!-- 统计部分 -->
 
-    <el-card class="box-card">
+    <el-card>
       <!--  2为 ECharts 准备一个定义了宽高的 DOM -->
       <div ref="main" style="width: 1500px; height: 400px"></div>
+    </el-card>
+    <el-card>
+      <!--  2为 ECharts 准备一个定义了宽高的 DOM -->
+      <div ref="main2" style="width: 1500px; height: 400px"></div>
     </el-card>
 
   </div>
@@ -70,6 +74,7 @@ export default {
   mounted() {
     // 3
     var myChart = echarts.init(this.$refs.main)
+    var myChart2 = echarts.init(this.$refs.main2)
 
     var option = {
       title: {
@@ -102,8 +107,28 @@ export default {
         },
       ],
     }
+    var option2 = {
+      title: {
+        text: " 药品收入统计",
+      },
+
+      xAxis: {
+        type: "",
+        data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      },
+      yAxis: {
+        type: "value",
+      },
+      series: [
+        {
+          data: [150, 230, 224, 218, 135, 147, 260],
+          type: "line",
+        },
+      ],
+    }
 
     myChart.setOption(option)
+    myChart2.setOption(option2)
   },
   components: {},
 }
@@ -152,11 +177,5 @@ export default {
 }
 .box1 {
   background-color: #fff;
-}
-// .box-card {
-//   margin-bottom: 30px;
-// }
-.el-card {
-  margin-top: 15px;
 }
 </style>

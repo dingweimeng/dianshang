@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/components/Longin.vue'
 import Home from '@/components/Home.vue'
-import Welocome from '@/components/Welcome.vue'
-import Users from '@/components/users/Users.vue'
+// import Welcome from '@/components/Welcome.vue'
+// import Users from '@/components/users/Users.vue'
 import Rights from '@/components/power/Rights.vue'
 import Roles from '@/components/power/Roles.vue'
 import Cate from '@/components/goods/Cate.vue'
@@ -53,31 +53,126 @@ const routes = [
         path: '/home',
         component: Home,
         redirect: '/Welcome',
-        children: [
-            { path: '/Welcome', component: Welocome },
-            { path: '/users', component: Users },
-            { path: '/rights', component: Rights },
-            { path: '/roles', component: Roles },
-            { path: '/categories', component: Cate },
-            { path: '/params', component: Params },
-            { path: '/goods', component: Goods },
-            { path: '/orders', component: Order },
-            { path: '/reports', component: Report },
-            { path: '/classify', component: Classify },
-            { path: '/usage', component: Usage },
-            { path: '/dosage', component: Dosage },
-            { path: '/packing', component: Packing },
-            { path: '/storage', component: Storage },
-            { path: '/delivery', component: Delivery },
-            { path: '/ruku', component: Ruku },
-            { path: '/chuku', component: Chuku },
-            { path: '/purchase', component: Purchase },
-            { path: '/ranking', component: Ranking },
-            { path: '/detail', component: Detail },
-            { path: '/drug', component: Drug },
-            { path: '/clinic', component: Clinic },
-            { path: '/jigou', component: Jigou },
-            { path: '/setting', component: Setting }
+        children: [{
+                path: '/Welcome',
+                component: () =>
+                    import ('@/components/Welcome.vue')
+            },
+            {
+                path: '/users',
+                component: () =>
+                    import ('@/components/users/Users.vue')
+            },
+            {
+                path: '/rights',
+                component: () =>
+                    import ('@/components/power/Rights.vue')
+            },
+            {
+                path: '/roles',
+                component: () =>
+                    import ('@/components/power/Roles.vue')
+            },
+            {
+                path: '/categories',
+                component: () =>
+                    import ('@/components/goods/Cate.vue')
+            },
+            {
+                path: '/params',
+                component: () =>
+                    import ('@/components/goods/Params.vue')
+            },
+            {
+                path: '/goods',
+                component: () =>
+                    import ('@/components/goods/Goods.vue')
+            },
+            {
+                path: '/orders',
+                component: () =>
+                    import ('@/components/order/Order.vue')
+            },
+            {
+                path: '/reports',
+                component: () =>
+                    import ('@/components/report/Report.vue')
+            },
+            {
+                path: '/classify',
+                component: () =>
+                    import ('@/components/maintain/classify.vue')
+            },
+            {
+                path: '/usage',
+                component: () =>
+                    import ('@/components/maintain/usage.vue')
+            },
+            {
+                path: '/dosage',
+                component: () =>
+                    import ('@/components/maintain/dosage.vue')
+            },
+            {
+                path: '/packing',
+                component: () =>
+                    import ('@/components/maintain/packing.vue')
+            },
+            {
+                path: '/storage',
+                component: () =>
+                    import ('@/components/maintain/storage.vue')
+            },
+            {
+                path: '/delivery',
+                component: () =>
+                    import ('@/components/maintain/delivery.vue')
+            },
+            {
+                path: '/ruku',
+                component: () =>
+                    import ('@/components/tongji/ruku.vue')
+            },
+            {
+                path: '/chuku',
+                component: () =>
+                    import ('@/components/tongji/chuku.vue')
+            },
+            {
+                path: '/purchase',
+                component: () =>
+                    import ('@/components/tongji/purchase.vue')
+            },
+            {
+                path: '/ranking',
+                component: () =>
+                    import ('@/components/tongji/ranking.vue')
+            },
+            {
+                path: '/detail',
+                component: () =>
+                    import ('@/components/tongji/detail.vue')
+            },
+            {
+                path: '/drug',
+                component: () =>
+                    import ('@/components/drug/Drug.vue')
+            },
+            {
+                path: '/clinic',
+                component: () =>
+                    import ('@/components/clinic/Clinic.vue')
+            },
+            {
+                path: '/jigou',
+                component: () =>
+                    import ('@/components/jigou/Jigou.vue')
+            },
+            {
+                path: '/setting',
+                component: () =>
+                    import ('@/components/setting/Setting.vue')
+            }
         ]
     }
 ]
@@ -87,7 +182,7 @@ const router = new VueRouter({
     })
     // 路由前置守卫
 router.beforeEach((to, from, next) => {
-    if (to.path === '/home') {
+    if (to.path !== '/login') {
         const token = sessionStorage.getItem('token')
         if (!token) {
             next('/login')

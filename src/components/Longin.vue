@@ -46,10 +46,6 @@ export default {
         password: "123456",
         agree: false, //是否同意协议
       },
-
-      // checked: false,    // 我已阅读并同意用户协议和隐私条款 默认 不勾选
-      // 登录按钮 转圈圈
-      // loginLoading: false,
       // 表单验证
       loginFormRules: {
         //
@@ -96,9 +92,6 @@ export default {
   },
   methods: {
     login() {
-      // 登录按钮 转圈圈
-      // this.loginLoading = true
-      // console.log(this)
       //   el-form 绑定  ref="loginFormRef"
       this.$refs.loginFormRef.validate(async (valid) => {
         // console.log(valid)
@@ -107,24 +100,18 @@ export default {
         const { data: res } = await this.$http.post("login", this.loginForm)
         console.log(res)
         if (res.meta.status !== 200) {
-          // 登录按钮 转圈圈
-          // this.loginLoading = false
           return this.$message.error("登录失败")
         }
-
-        // 登录成功 要有提示  暂停按钮转圈圈  存token  跳转页面
-        // 登录按钮 转圈圈
-        // this.loginLoading = false
 
         this.$message.success("登录成功")
         window.sessionStorage.setItem("token", res.data.token)
         this.$router.push("/home")
       })
     },
-    // 重置方法  打印this this.refs     el-form 框架的方法   resetFields()
 
+    // 重置方法  打印this this.refs     el-form 框架的方法   resetFields()
     resetLoginForm() {
-      console.log(this)
+      // console.log(this)
       this.$refs.loginFormRef.resetFields()
     },
   },

@@ -49,13 +49,13 @@
       <el-table :data="tableData" border stripe>
         <el-table-column type="index" label="序号" width="50" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="Drugnumber" label="药品编号" width="150" header-align="center" align="center">
+        <el-table-column prop="Drugnumber" label="药品编号" width="100" header-align="center" align="center">
         </el-table-column>
         <el-table-column prop="Drugname" label="药品名称" width="200" header-align="center" align="center">
         </el-table-column>
         <el-table-column prop="guige" label="规格" width="150" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="address" label="生产厂家" width="280" header-align="center" align="center">
+        <el-table-column prop="address" label="生产厂家" width="250" header-align="center" align="center">
         </el-table-column>
 
         <el-table-column label="是否启用" prop="mgstate" width="150" header-align="center" align="center">
